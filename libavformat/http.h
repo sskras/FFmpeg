@@ -24,7 +24,18 @@
 
 #include "url.h"
 
-#define HTTP_HEADERS_SIZE 4096
+/**
+ * Every server listed here (except Apache 2.2) seems to use ~8k or more
+ * as default maximum size of the full HTTP header.
+ *
+ * Every implementation except Apaches, Tomcats and Node.js < v13.13.0
+ * seems to use ~16k or more.
+ *
+ * In any case, it should be no harm in using even larger buffers -- a
+ * webserver would just refuse the request with 400 or 413:
+ * https://www.geekersdigest.com/max-http-request-header-size-server-comparison/
+ */
+#define HTTP_HEADERS_SIZE 16384
 
 /**
  * Initialize the authentication state based on another HTTP URLContext.
